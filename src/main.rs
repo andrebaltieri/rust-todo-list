@@ -1,4 +1,5 @@
 use std::io;
+use std::process::exit;
 use chrono::{NaiveDate, Utc};
 
 struct Task {
@@ -50,6 +51,8 @@ fn show_menu() {
     println!("2 - Editar tarefa");
     println!("3 - Excluir tarefa");
     println!("4 - Concluir tarefa");
+    println!("5 - Listar tarefas");
+    println!("6 - Sair");
 }
 
 fn get_option(task_list: &mut TaskList) {
@@ -72,6 +75,8 @@ fn redirect(task_list: &mut TaskList, option: u8) {
         2 => println!("opção 2"),
         3 => println!("opção 3"),
         4 => println!("opção 4"),
+        5 => list_tasks(task_list),
+        6 => std::process::abort(),
         _ => println!("Opção inválida"),
     }
 }
@@ -82,7 +87,9 @@ fn create_task(task_list: &mut TaskList) {
     io::stdin().read_line(&mut task).expect("Nome inválido");
     task_list.add(task);
 
-    list_tasks(task_list);
+    println!("Tarefa adicionada!");
+    show_menu();
+    get_option(task_list);
 }
 
 fn list_tasks(task_list: &mut TaskList) {
