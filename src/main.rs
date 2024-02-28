@@ -82,18 +82,56 @@ fn redirect(task_list: &mut TaskList, option: u8) {
 }
 
 fn create_task(task_list: &mut TaskList) {
+    clear();
     println!("Informe o nome da tarefa:");
     let mut task: String = String::new();
     io::stdin().read_line(&mut task).expect("Nome inválido");
     task_list.add(task);
+<<<<<<< HEAD
 
     println!("Tarefa adicionada!");
     show_menu();
     get_option(task_list);
+=======
+    list_tasks(task_list);
+>>>>>>> b433666bfad08e926328cec9c72d3243daf2d840
+}
+
+fn remove_task(task_list: &mut TaskList) {
+    clear();
+    println!("Informe o ID da tarefa a ser removida:");
+    loop {
+        let mut id: String = String::new();
+        io::stdin().read_line(&mut id).expect("Informe o ID de uma tarefa");
+        let id: u32 = match id {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+    }
+    
 }
 
 fn list_tasks(task_list: &mut TaskList) {
+    clear();
+    println!("Suas tarefas são:");
     for task in &task_list.tasks {
-        println!("{}", task.title)
+        println!(" - {}. {}", task.id, task.title)
+    }
+
+    show_menu();
+}
+
+#[cfg(test)]
+mod test {
+    use crate::TaskList;
+
+    #[test]
+    fn should_add_item_to_task_list() {
+        let mut task_list = TaskList {
+            tasks: vec![]
+        };
+        task_list.add("Nome da tarefa".parse().unwrap());
+
+        assert_eq!(task_list.tasks.len(), 1);
     }
 }
